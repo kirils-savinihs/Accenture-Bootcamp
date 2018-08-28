@@ -13,11 +13,11 @@ public class Ship extends Transport {
 
 	@Override
 	public String move(Road road) {
-		if (!(road instanceof WaterRoad )) {
+		if (!(road.getClass() == WaterRoad.class)) {
 			return "Cannot sail on " + road.toString();
 		} else
-			return this.getId() +" "+ this.getClass().getSimpleName() + " is sailing on " + road.toString() + " with " + this.numberOfSails
-					+ " sails";
+			return this.getId() + " " + this.getClass().getSimpleName() + " is sailing on " + road.toString() + " with "
+					+ this.numberOfSails + " sails";
 
 	}
 

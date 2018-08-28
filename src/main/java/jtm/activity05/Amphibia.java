@@ -16,12 +16,21 @@ public class Amphibia extends Transport {
 
 	@Override
 	public String move(Road road) {
-		if (road instanceof WaterRoad) {
-			return this.getId() + " " + this.getClass().getSimpleName() + " is driving on " + road.toString() + " with "
-					+ this.numberOfWheels + " wheels";
-		} else  {
+		float necFuel = ((road.getDistance()) * (this.getConsumption() / 100));
+		if (road.getClass() == Road.class) {
+			if (this.getFuelInTank() >= necFuel) {
+				this.setFuelInTank(this.getFuelInTank() - necFuel);
+				return this.getId() + " " + this.getClass().getSimpleName() + " is driving on " + road.toString() + " with "
+						+ this.numberOfWheels + " wheels";
+			} else {
+				return "Cannot drive on " + road.toString();
+			}
+
+		} else if (road.getClass() == WaterRoad.class) {
 			return this.getId() + " " + this.getClass().getSimpleName() + " is sailing on " + road.toString() + " with "
 					+ this.numberOfSails + " sails";
+		} else {
+			return "Unknown road type";
 		}
 
 	}

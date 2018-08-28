@@ -92,7 +92,7 @@ public class Transport {
 		// necessary amount and return String in form:
 		// "AAA Type is moving on From–To, 180km"
 		float necFuel = ((road.getDistance()) * (this.consumption / 100));
-		System.out.println(necFuel);
+
 		if (this.fuelInTank >= necFuel) {
 			this.fuelInTank -= necFuel;
 			return this.id + " " + this.getType() + " is moving on " + road.toString();

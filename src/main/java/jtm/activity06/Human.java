@@ -1,11 +1,12 @@
 package jtm.activity06;
+
 import java.util.Vector;
 
 public class Human implements Humanoid {
 
 	private int weight;
 	private boolean alive;
-	private Vector <Object> backpack = new Vector<Object>();
+	private Object backpack;
 
 	public Human() {
 		this.alive = true;
@@ -31,7 +32,7 @@ public class Human implements Humanoid {
 
 	@Override
 	public String killHimself() {
-		this.alive=false;
+		this.alive = false;
 		return this.isAlive();
 	}
 
@@ -41,13 +42,19 @@ public class Human implements Humanoid {
 	}
 
 	@Override
-	public Object getBackpack() {
-		return this.backpack;
+	public String getBackpack() {
+		return (String) this.backpack;
+
+	}
+
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName() + ": " + this.weight + " [" + backpack+"] ";
 	}
 
 	@Override
 	public void setBackpack(String item) {
-		this.backpack.addElement(item);
+		this.backpack = item;
 
 	}
 

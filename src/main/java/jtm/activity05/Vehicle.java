@@ -14,11 +14,15 @@ public class Vehicle extends Transport {
 
 	@Override
 	public String move(Road road) {
-		if (!(road instanceof Road)) {
+		float necFuel = ((road.getDistance()) * (this.getConsumption() / 100));
+		if ((!(road.getClass() == Road.class)) || this.getFuelInTank() < necFuel) {
 			return "Cannot drive on " + road.toString();
-		} else
-			return this.getId() +" "+ this.getClass().getSimpleName() + " is driving on " + road.toString() + " with " + this.numberOfWheels
-					+ " wheels";
+		} else {
+			this.setFuelInTank(this.getFuelInTank() - necFuel);
+			return this.getId() + " " + this.getClass().getSimpleName() + " is driving on " + road.toString() + " with "
+					+ this.numberOfWheels + " wheels";
+
+		}
 	}
 
 }
