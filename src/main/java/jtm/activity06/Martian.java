@@ -1,11 +1,8 @@
 package jtm.activity06;
 
-import java.util.Vector;
-
 public class Martian implements Humanoid, Cloneable, Alien {
 
 	private int weight;
-	private boolean alive;
 	private Object backpack;
 
 	public Martian(int weight) {
@@ -14,10 +11,9 @@ public class Martian implements Humanoid, Cloneable, Alien {
 
 	@Override
 	public void eatHuman(Humanoid humanoid) {
-		if (humanoid.isAlive() == "Alive") {
-			this.weight += humanoid.getWeight();
+		if (humanoid.isAlive().equals("Alive")) {
+			this.setWeight(this.getWeight() + humanoid.getWeight());
 			humanoid.killHimself();
-			this.backpack = humanoid;
 		}
 
 	}
@@ -25,6 +21,27 @@ public class Martian implements Humanoid, Cloneable, Alien {
 	@Override
 	public int getLegCount() {
 		return Alien.LEG_COUNT;
+	}
+
+	@Override
+	public void setBackpack(String item) {
+		this.backpack = item;
+
+	}
+
+	@Override
+	public Object getBackpack() {
+		return clone(backpack);
+	}
+
+	@Override
+	public void setBackpack(Object item) {
+		if (item == this) {
+			this.backpack = null;
+		} else {
+			this.backpack = item;
+		}
+
 	}
 
 	@Override
@@ -40,33 +57,13 @@ public class Martian implements Humanoid, Cloneable, Alien {
 
 	@Override
 	public String killHimself() {
-		return this.isAlive();
+		return "I AM IMMORTAL!";
 	}
 
 	@Override
 	public int getArmCount() {
-		return this.ARM_COUNT;
+		return Humanoid.ARM_COUNT;
 	}
-
-	@Override
-	public Object getBackpack(){
-		return this.backpack;
-	}
-
-	@Override
-	public void setBackpack(Object item) {
-		if (!(item == this)) {
-			this.backpack = item;
-		}
-
-	}
-
-	@Override
-	public String isAlive() {
-		return "I AM IMMORTAL!";
-	}
-
-
 
 	@Override
 	public Object clone() throws CloneNotSupportedException {
@@ -74,29 +71,31 @@ public class Martian implements Humanoid, Cloneable, Alien {
 	}
 
 	private Object clone(Object current) {
-
 		if (current instanceof Martian) {
 			Martian clone = new Martian(((Martian) current).getWeight());
 			clone.setBackpack(((Martian) current).getBackpack());
 			return clone;
-		}
-		//current instanceof Human
-		else {
-			Human clone = new Human( ((Human)current).getWeight());
-			clone.setBackpack(((Human)current).getBackpack());
+		} else if (current instanceof String) {
+			String clone = new String((String) current);
 			return clone;
+		} else if (current instanceof Human) {
+			Human clone = new Human(((Human) current).getWeight());
+			clone.setBackpack(((Human) current).getBackpack());
+			return clone;
+		} else if (current instanceof Object) {
+			return new Object();
 		}
+		return null;
+	}
+
+	@Override
+	public String isAlive() {
+		return "I AM IMMORTAL!";
 	}
 
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName() + ": " + this.weight + " [" + backpack+"] ";
-	}
-
-	@Override
-	public void setBackpack(String item) {
-		this.setBackpack((Object)item);
-		
+		return this.getClass().getSimpleName() + ": " + this.weight + " [" + backpack + "] ";
 	}
 
 }

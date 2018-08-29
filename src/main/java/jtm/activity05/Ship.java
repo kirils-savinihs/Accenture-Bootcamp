@@ -18,7 +18,6 @@ public class Ship extends Transport {
 		} else
 			return this.getId() + " " + this.getClass().getSimpleName() + " is sailing on " + road.toString() + " with "
 					+ this.numberOfSails + " sails";
-
 	}
 
 }

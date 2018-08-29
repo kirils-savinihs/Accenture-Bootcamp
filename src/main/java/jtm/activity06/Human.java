@@ -1,12 +1,12 @@
 package jtm.activity06;
 
-import java.util.Vector;
+
 
 public class Human implements Humanoid {
 
 	private int weight;
 	private boolean alive;
-	private Object backpack;
+	private String backpack;
 
 	public Human() {
 		this.alive = true;
@@ -43,7 +43,7 @@ public class Human implements Humanoid {
 
 	@Override
 	public String getBackpack() {
-		return (String) this.backpack;
+		return this.backpack;
 
 	}
 
