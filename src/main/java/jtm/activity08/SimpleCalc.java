@@ -9,31 +9,31 @@ package jtm.activity08;
 public class SimpleCalc {
 
 	// TODO specify that method can throw SimpleCalcException
-	public static int add(int a, int b)
-			{
-		// TODO implement adding operation
-		return 0;
+	public static int add(int a, int b) throws SimpleCalcException {
+		validateInput(a, b);
+		validateOutput(a, b, "+");
+		return a + b;
 	}
 
 	// TODO specify that method can throw SimpleCalcException
-	public static int subtract(int a, int b)
-			{
-		// TODO implement subtract operation
-		return 0;
+	public static int subtract(int a, int b) throws SimpleCalcException {
+		validateInput(a, b);
+		validateOutput(a, b, "-");
+		return a - b;
 	}
 
 	// TODO specify that method can throw SimpleCalcException
-	public static int multiply(int a, int b)
-			{
-		// TODO implement multiply operation
-		return 0;
+	public static int multiply(int a, int b) throws SimpleCalcException {
+		validateInput(a, b);
+		validateOutput(a, b, "*");
+		return a * b;
 	}
 
 	// TODO specify that method can throw SimpleCalcException
-	public static int divide(int a, int b)
-			{
-		// TODO implement divide operation
-		return 0;
+	public static int divide(int a, int b) throws SimpleCalcException {
+		validateInput(a, b);
+		validateOutput(a, b, "/");
+		return a / b;
 	}
 
 	// TODO Validate that inputs are in range of -10..+10 using assertions
@@ -59,23 +59,91 @@ public class SimpleCalc {
 	//
 	private static void validateInput(int a, int b) {
 
+		if ((a > 10 || a < -10) && b <= 10 && b >= -10) // only A is incorrect
+		{
+			if (a > 10) {
+				assert false : "input value a: " + a + " is above 10";
+			} else {
+				assert false : "input value a: " + a + " is below -10";
+			}
+
+		} else if ((b > 10 || b < -10) && a <= 10 && a >= -10) // only B is incorrect
+		{
+			if (b > 10) {
+				assert false : "input value b: " + b + " is above 10";
+			} else {
+				assert false : "input value b: " + b + " is below -10";
+			}
+
+		} else if ((b > 10 || b < -10) && (a > 10 || a < -10)) // both A and B are incorrect
+		{
+			if (a < -10 && b < -10) // both below - 10
+			{
+				assert false : "input value a: " + a + " is below -10 and b: " + b + " is below -10";
+			} else if (a > 10 && b < -10) // a above b below
+			{
+				assert false : "input value a: " + a + " is above 10 and b: " + b + " is below -10";
+			} else if (a < -10 && b > 10) // a below b above
+			{
+				assert false : "input value a: " + a + " is below -10 and b: " + b + " is above 10";
+			} else if (a > 10 && b > 10)// a above b above
+			{
+				assert false : "input value a: " + a + " is above 10 and b: " + b + " is above 10";
+			}
+
+		}
+
 	}
 
 	// TODO use this method to check that result of operation is also in
 	// range of -10..+10.
 	// If result is not in range:
-	//     throw SimpleCalcException with message:
-	//     "output value a oper b = result is above 10"
-	//     "output value a oper b = result is below -10"
-	//     where oper is +, -, *, /
+	// throw SimpleCalcException with message:
+	// "output value a oper b = result is above 10"
+	// "output value a oper b = result is below -10"
+	// where oper is +, -, *, /
 	// Else:
-	//     return result
+	// return result
 	// Hint:
 	// If division by zero is performed, catch original exception and create
 	// new SimpleCalcException with message "division by zero" and add
 	// original division exception as a cause for it.
-	private static int validateOutput(int a, int b, String operation)
-			{
+	private static int validateOutput(int a, int b, String operation) throws SimpleCalcException {
+		String assStr = "output value " + a + " " + operation + " " + b + " = ";
+		switch (operation) {
+		case "+":
+			assStr += (a + b) + " is ";
+			if (a + b > 10)
+				throw new SimpleCalcException(assStr + "above 10");
+			else if (a + b < -10)
+				throw new SimpleCalcException(assStr + "below -10");
+			break;
+		case "-":
+			assStr += (a - b) + " is ";
+			if (a - b > 10)
+				throw new SimpleCalcException(assStr + "above 10");
+			else if (a - b < -10)
+				throw new SimpleCalcException(assStr + "below -10");
+			break;
+		case "*":
+			assStr += (a * b) + " is ";
+			if (a * b > 10)
+				throw new SimpleCalcException(assStr + "above 10");
+			else if (a * b < -10)
+				throw new SimpleCalcException(assStr + "below -10");
+			break;
+		case "/":
+			try {
+				assStr += (a / b) + " is ";
+				assert a / b <= 10 : assStr + "above 10";
+				assert a / b >= -10 : assStr + "below -10";
+				break;
+			} catch (ArithmeticException ae) {
+				if (b==0)
+				throw new SimpleCalcException("division by zero", ae);
+			}
+		}
+
 		return 0;
 	}
 }

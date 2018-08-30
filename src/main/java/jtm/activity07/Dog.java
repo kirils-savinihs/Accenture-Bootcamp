@@ -25,7 +25,7 @@ public class Dog extends Mammal {
 	 * 
 	 */
 	 public void setName(String name) {
-		 if (Character.isUpperCase(name.charAt(0)))
+		 if (Character.isUpperCase(name.charAt(0))&&!(name.matches(".*\\d+.*")))
 		this.name=name;
 		 else 
 			 this.name="";
