@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
@@ -50,62 +51,76 @@ public class StreamEditor {
 		 * Please use arguments: [-]lineNo (TextToAdd/Replace|-) (inputFile|-) (outputFile|-)
 		 * and exit with System.exit(1); to pass error status of finished program.
 		 */
-		if (args.length != 4 || args[1] == null || args[2] == null || args[3] == null || args[4] == null) {
+		if (args.length != 4 || args[0] == null || args[1] == null || args[2] == null || args[3] == null) {
 
 			System.err.println("Please use arguments: [-]lineNo (TextToAdd/Replace|-) (inputFile|-) (outputFile|-)");
 			System.exit(1);
 		} else {
-			inLineNo = Integer.parseInt(args[1]);
-			content = args[2];
-			inFileName = args[3];
-			outFileName = args[4];
 
-			if (Integer.parseInt(args[1]) < 0) {
+			content = args[1];
+			inFileName = args[2];
+			outFileName = args[3];
+			inLineNo = Integer.parseInt(args[0]);
+
+			if (inLineNo < 0) 
 				delete = true;
-			} else {
+			else 
 				delete = false;
-			}
+			
 
 			if (inFileName.equals("-")) {
 				reader = new BufferedReader(new InputStreamReader(System.in));
 			} else {
-				inFile = new File("inFileName");
+				inFile = new File(inFileName);
 				if (!inFile.exists()) {
 					inFile.createNewFile();
 				}
 				reader = new BufferedReader(new FileReader(inFile));
-
 			}
+			int editLine = Math.abs(inLineNo);
 
 			if (outFileName.equals("-")) {
 				writer = new PrintWriter(System.out);
 			} else {
-				writer = new PrintWriter(outFileName);
+				writer = new PrintWriter(new FileWriter(outFileName));
 			}
-			
-			
 
-			while ((curLineContent=reader.readLine())!=null || !(curLineNo<=inLineNo)) {
-				curLineNo += 1;
-				
-				if (curLineNo == inLineNo) {
-					if (!delete) {
-						writer.append(content);
+			while ((curLineContent = reader.readLine()) != null) {
+				curLineNo++;
+				if (!(curLineContent.equals(""))) {
+					if (curLineNo == editLine) {
+						if (delete) {
+							curLineContent = "";
+							writer.print(curLineContent);
+						} else {
+							curLineContent = content;
+							writer.println(curLineContent);
+						}
+					} else {
+						writer.println(curLineContent);
 					}
 				}
-				else if (curLineContent == null)
-				{
-					writer.append("");
+
+			}
+			if (curLineNo < editLine) {
+				int i = curLineNo;
+				while (i < editLine) {
+					writer.println("");
+					i++;
 				}
-				else {
-				
-					writer.append(curLineContent);
+				if (delete) {
+					curLineContent = "";
+					writer.print(curLineContent);
+				} else {
+					curLineContent = content;
+					writer.println(curLineContent);
 				}
 			}
-			
-			writer.flush();
+
 			reader.close();
+			writer.flush();
 			writer.close();
+
 		}
 
 		// TODO Get integer from the 1st argument. Note that line should be

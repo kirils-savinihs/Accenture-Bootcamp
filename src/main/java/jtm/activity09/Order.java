@@ -66,7 +66,7 @@ public class Order implements Comparable<Order> {
 
 	@Override
 	public int hashCode() {
-		int hashCode = this.name.hashCode()* this.customer.hashCode() * count;
+		int hashCode = this.name.hashCode() * this.customer.hashCode() * count;
 		return hashCode;
 	}
 
@@ -74,7 +74,5 @@ public class Order implements Comparable<Order> {
 	public String toString() {
 		return this.name + ": " + this.customer + ": " + this.count;
 	}
-
-
 
 }

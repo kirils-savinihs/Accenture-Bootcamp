@@ -39,7 +39,7 @@ import java.util.TreeSet;
  *  - ItemN: Customer1,Customer2: 4
  */
 
-public  class Orders implements Iterator<Order> {
+public class Orders implements Iterator<Order> {
 	/*-
 	 * TODO #1
 	 * Create data structure to hold:
@@ -55,67 +55,55 @@ public  class Orders implements Iterator<Order> {
 
 	public void add(Order order) {
 		orders.add(order);
-		it =orders.iterator();
+		it = orders.iterator();
 	}
 
 	public Set<Order> getItemsSet() {
-		
-		List<Order> hashset = new ArrayList<Order>(orders);
-//		Iterator<Order> hashIt1 = hashset.iterator();
-//		Iterator<Order> hashIt2 = hashset.iterator();
+
+		List<Order> tempList = new ArrayList<Order>(orders);
+//		Iterator<Order> hashIt1 = tempList.iterator();
+//		Iterator<Order> hashIt2 = tempList.iterator();
 //		Order hashIt1Next;
 //		Order hashIt2Next;
-		
-		if (orders.isEmpty())
-		{
-			return new TreeSet<Order>(hashset);
+
+		if (orders.isEmpty()) {
+			return new TreeSet<Order>(tempList);
 		}
-		
-		
-		for (int i=0;i<hashset.size();i++)
-		{
-			for (int y=0;y<hashset.size();y++)
-			{
-				
-				if (!hashset.get(i).equals(hashset.get(y))&&hashset.get(i).name.equals(hashset.get(y).name) )
-				{
-					List <String> temp = new ArrayList <String>();
-					
-					temp.add(hashset.get(y).customer);
-					temp.add(hashset.get(i).customer);
-					Collections.sort(temp);
-					boolean first=true;
-					for (String x:temp)
-					{
-						if (first)
-						{
-							hashset.get(y).customer =x;
+
+		for (int i = 0; i < tempList.size(); i++) {
+			for (int y = 0; y < tempList.size(); y++) {
+
+				if (!tempList.get(i).equals(tempList.get(y)) && tempList.get(i).name.equals(tempList.get(y).name)) {
+					List<String> sortList = new ArrayList<String>();
+
+					sortList.add(tempList.get(y).customer);
+					sortList.add(tempList.get(i).customer);
+					Collections.sort(sortList);
+					boolean first = true;
+					for (String x : sortList) {
+						if (first) {
+							tempList.get(y).customer = x;
 							first = false;
-						}
-						else
-						{
-							hashset.get(y).customer+=","+x;
+						} else {
+							tempList.get(y).customer += "," + x;
 						}
 					}
-					
-					
 
-					hashset.get(y).count+=hashset.get(i).count;
-					hashset.remove(i);
+					tempList.get(y).count += tempList.get(i).count;
+					tempList.remove(i);
 				}
-				
-				
+
 			}
 		}
-		
-		Collections.sort(hashset);
-		Set <Order> treeset = new TreeSet<Order>(hashset);
-		return treeset;
-		
+
+		Collections.sort(tempList);
+		Set<Order> treeSet = new TreeSet<Order>(tempList);
+		return treeSet;
+
 	}
 
 	public List<Order> getItemsList() {
-		return	new ArrayList<Order>(orders);
+		return new ArrayList<Order>(orders);
 	}
 
 	public Orders() {
