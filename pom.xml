@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>JTM</artifactId>
+	<artifactId>fEWC</artifactId>
 	<groupId>jtm</groupId>
 	<name>Java Training Materials</name>
 	<description>Project for practical exercises</description>
@@ -22,7 +22,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>jtm</groupId>
-			<artifactId>fEWC</artifactId>
+			<artifactId>JTM</artifactId>
 			<version>1.0</version>
 			<scope>system</scope>
 			<systemPath>${basedir}/lib/JTM.jar</systemPath>
