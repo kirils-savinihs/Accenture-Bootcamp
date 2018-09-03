@@ -1,5 +1,15 @@
 package jtm.activity09;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
+import java.util.TreeSet;
 
 /*- TODO #2
  * Implement Iterator interface with Orders class
@@ -29,7 +39,7 @@ package jtm.activity09;
  *  - ItemN: Customer1,Customer2: 4
  */
 
-public class Orders {
+public  class Orders implements Iterator<Order> {
 	/*-
 	 * TODO #1
 	 * Create data structure to hold:
@@ -40,4 +50,101 @@ public class Orders {
 	 *   2. when constructing list of orders, set number of current order to -1
 	 *      (which is usual approach when working with iterateable collections).
 	 */
+	List<Order> orders;
+	Iterator<Order> it;
+
+	public void add(Order order) {
+		orders.add(order);
+		it =orders.iterator();
+	}
+
+	public Set<Order> getItemsSet() {
+		
+		List<Order> hashset = new ArrayList<Order>(orders);
+//		Iterator<Order> hashIt1 = hashset.iterator();
+//		Iterator<Order> hashIt2 = hashset.iterator();
+//		Order hashIt1Next;
+//		Order hashIt2Next;
+		
+		if (orders.isEmpty())
+		{
+			return new TreeSet<Order>(hashset);
+		}
+		
+		
+		for (int i=0;i<hashset.size();i++)
+		{
+			for (int y=0;y<hashset.size();y++)
+			{
+				
+				if (!hashset.get(i).equals(hashset.get(y))&&hashset.get(i).name.equals(hashset.get(y).name) )
+				{
+					List <String> temp = new ArrayList <String>();
+					
+					temp.add(hashset.get(y).customer);
+					temp.add(hashset.get(i).customer);
+					Collections.sort(temp);
+					boolean first=true;
+					for (String x:temp)
+					{
+						if (first)
+						{
+							hashset.get(y).customer =x;
+							first = false;
+						}
+						else
+						{
+							hashset.get(y).customer+=","+x;
+						}
+					}
+					
+					
+
+					hashset.get(y).count+=hashset.get(i).count;
+					hashset.remove(i);
+				}
+				
+				
+			}
+		}
+		
+		Collections.sort(hashset);
+		Set <Order> treeset = new TreeSet<Order>(hashset);
+		return treeset;
+		
+	}
+
+	public List<Order> getItemsList() {
+		return	new ArrayList<Order>(orders);
+	}
+
+	public Orders() {
+		orders = new ArrayList<Order>();
+		it = orders.iterator();
+	}
+
+	public void sort() {
+		Collections.sort(orders);
+		it = orders.iterator();
+	}
+
+	public void remove() {
+		it.remove();
+		it = orders.iterator();
+	}
+
+	public String toString() {
+		return orders.toString();
+	}
+
+	@Override
+	public boolean hasNext() {
+		return it.hasNext();
+	}
+
+	@Override
+	public Order next() {
+		return it.next();
+	}
+
 }

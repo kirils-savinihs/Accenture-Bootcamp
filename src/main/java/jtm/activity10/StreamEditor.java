@@ -1,6 +1,7 @@
 package jtm.activity10;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.InputStreamReader;
@@ -49,6 +50,63 @@ public class StreamEditor {
 		 * Please use arguments: [-]lineNo (TextToAdd/Replace|-) (inputFile|-) (outputFile|-)
 		 * and exit with System.exit(1); to pass error status of finished program.
 		 */
+		if (args.length != 4 || args[1] == null || args[2] == null || args[3] == null || args[4] == null) {
+
+			System.err.println("Please use arguments: [-]lineNo (TextToAdd/Replace|-) (inputFile|-) (outputFile|-)");
+			System.exit(1);
+		} else {
+			inLineNo = Integer.parseInt(args[1]);
+			content = args[2];
+			inFileName = args[3];
+			outFileName = args[4];
+
+			if (Integer.parseInt(args[1]) < 0) {
+				delete = true;
+			} else {
+				delete = false;
+			}
+
+			if (inFileName.equals("-")) {
+				reader = new BufferedReader(new InputStreamReader(System.in));
+			} else {
+				inFile = new File("inFileName");
+				if (!inFile.exists()) {
+					inFile.createNewFile();
+				}
+				reader = new BufferedReader(new FileReader(inFile));
+
+			}
+
+			if (outFileName.equals("-")) {
+				writer = new PrintWriter(System.out);
+			} else {
+				writer = new PrintWriter(outFileName);
+			}
+			
+			
+
+			while ((curLineContent=reader.readLine())!=null || !(curLineNo<=inLineNo)) {
+				curLineNo += 1;
+				
+				if (curLineNo == inLineNo) {
+					if (!delete) {
+						writer.append(content);
+					}
+				}
+				else if (curLineContent == null)
+				{
+					writer.append("");
+				}
+				else {
+				
+					writer.append(curLineContent);
+				}
+			}
+			
+			writer.flush();
+			reader.close();
+			writer.close();
+		}
 
 		// TODO Get integer from the 1st argument. Note that line should be
 		// deleted if number is negative.
@@ -66,7 +124,6 @@ public class StreamEditor {
 		 *  1. If output file name (4th parameter) is "-", add writer to the standard output (System.out)
 		 *  2. Otherwise initialize writer to the file of given name.
 		 */
-
 
 		// TODO Read lines in loop from passed file/standard input till to the
 		// end. Count number of read lines. Before appending line into writer
