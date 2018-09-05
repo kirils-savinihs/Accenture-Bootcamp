@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -23,31 +24,54 @@ public class ChatServer implements Runnable {
 	private PrintWriter out; // for writing to client socket
 
 	/**
-	 * This is entry point to start Chat Server. Note that this method do not
-	 * use behavior which is implemented for Runnable interface.
+	 * This is entry point to start Chat Server. Note that this method do not use
+	 * behavior which is implemented for Runnable interface.
 	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		// TODO 1. initialize vector of connections
 		// TODO 2. try to create ServerSocket on specified port
-			// TODO 3. handle exceptions (show exception and exit with error
-			// status)
+		// TODO 3. handle exceptions (show exception and exit with error
+		// status)
+
+		connections = new Vector<ChatServer>();
+		try {
+			server = new ServerSocket(port);
+		} catch (IOException e1) {
+		
+			e1.printStackTrace();
+		}
+		
 		Socket socket = null;
 		Thread t = null;
 		while (true) {
 			// TODO 1. Try to initialize client Socket in infinite loop with
 			// server.accept() method
-				// TODO 2. handle exceptions
+			// TODO 2. handle exceptions
 			// TODO 3. if socket is initialized successfully, create new Thread
 			// passing new ChatServer(socket) as a parameter for it.
 			// Then invoke start() method for this thread
+		
+			try {
+				socket = server.accept();
+			} catch (Exception e) {
+				continue;
+				//e.printStackTrace();
+			}
+			if (socket.isConnected())
+			{
+				ChatServer chtServer = new ChatServer(socket);
+
+				t = new Thread(chtServer);
+				t.start();
+			}
 		}
 	}
 
 	/**
-	 * This method processes each connected client and writes received messages
-	 * to all other clients
+	 * This method processes each connected client and writes received messages to
+	 * all other clients
 	 * 
 	 * @see java.lang.Runnable#run()
 	 */
@@ -60,12 +84,34 @@ public class ChatServer implements Runnable {
 		// HINT: use connections to traverse all clients and invoke
 		// sendMsg(msg)
 		// for them
-				// TODO 2. if message is "quit" or "exit", break loop
-			// TODO 3. handle exceptions
-			// TODO 4. finally close all inputs and outputs of the connection,
-			// and
-			// remove current object reference from connections collection
-			// and handle exceptions for these operations, if necessary
+		// TODO 2. if message is "quit" or "exit", break loop
+		// TODO 3. handle exceptions
+		// TODO 4. finally close all inputs and outputs of the connection,
+		// and
+		// remove current object reference from connections collection
+		// and handle exceptions for these operations, if necessary
+		boolean running = true;
+		String msg;
+		while (running) {
+			try {
+				if (in.hasNextLine()) {
+					msg = in.nextLine();
+
+					for (ChatServer ch : connections) {
+						if (msg.equals("quit") || msg.equals("exit"))
+							break;
+						ch.sendMsg("> "+msg);
+
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		}
+		in.close();
+		out.close();
+
 	}
 
 	/**
@@ -79,7 +125,16 @@ public class ChatServer implements Runnable {
 		// TODO 3. Try to add input and output streams to the client socket
 		// HINT: to see output for each entered message, construct PrintWriter
 		// with auto flush option (or use flush() method)
-			// TODO handle exceptions
+		// TODO handle exceptions
+
+		this.client = client;
+		connections.add(this);
+		try {
+			this.in = new Scanner(this.client.getInputStream());
+			this.out = new PrintWriter(this. client.getOutputStream(), true);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -91,5 +146,6 @@ public class ChatServer implements Runnable {
 		// TODO print passed message into output stream (out) with writer of
 		// current
 		// object
+		out.println(msg);
 	}
 }
