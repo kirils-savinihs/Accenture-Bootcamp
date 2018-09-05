@@ -8,6 +8,10 @@ public class Log {
 	 * Implement static methods for Log class to write trace, debug, info, warn, error and fatal messages
 	 * Note, that this logger should have classpath jtm.extra10.Log
 	 */
+	public static void warn (String string)
+	{
+	
+	}
 
 
 	/*- TODO #2

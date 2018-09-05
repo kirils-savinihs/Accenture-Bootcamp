@@ -12,7 +12,7 @@ public class ArrayFillerManager {
 	static int minValue, maxValue; // min and max (including) of the
 									// array cell
 	private static LinkedList<Thread> threads; // list of threads when parallel
-										// filling is used
+	// filling is used
 
 	// HINT feel free to use main() method to call setUp(), fillStupidly() etc.
 	// for debugging purposes if unit tests doesn't show enough information,
@@ -24,7 +24,13 @@ public class ArrayFillerManager {
 		// initialize array with passed size
 		// initialize list of threads
 		// return reference to the initialized array
-		return null;
+		ArrayFillerManager.array = new int[arraySize];
+		ArrayFillerManager.latency = latency;
+		ArrayFillerManager.minValue = minValue;
+		ArrayFillerManager.maxValue = maxValue;
+		threads = new LinkedList<Thread>();
+
+		return ArrayFillerManager.array;
 	}
 
 	public static void fillStupidly() {
@@ -35,6 +41,12 @@ public class ArrayFillerManager {
 		// current (main) thread.
 		// Note that this method emulates, what would happen if you would send
 		// just small portions of data through media with latency.
+
+		for (int i = 0; i < array.length; i++) {
+			ArrayFiller stupidArrayFiller = new ArrayFiller(latency, minValue, maxValue, i, i);
+			stupidArrayFiller.run();
+		}
+
 	}
 
 	public static void fillSequentially() {
@@ -44,6 +56,9 @@ public class ArrayFillerManager {
 		// Note that this method emulates, what would happen if you would do
 		// proper "buffering" with large amount of data, but do execution just
 		// in single thread.
+
+		ArrayFiller sequentialArrayFiller = new ArrayFiller(latency, minValue, maxValue);
+		sequentialArrayFiller.run();
 	}
 
 	public static void fillParalelly() {
@@ -59,6 +74,58 @@ public class ArrayFillerManager {
 		// actually finished by calling .join() method for them.
 		// Note that this method emulates, what would happen if you do proper
 		// buffering and scaling of the execution.
+
+		int chunks[];
+
+		chunks = new int[5];
+		chunks[0] = 0;
+
+//		chunks[1] = ((array.length/4)-1)*1;
+//		chunks[2] = ((array.length/4)-1)*2;
+//		chunks[3] = ((array.length/4)-1)*3;
+
+		for (int i = 1; i <= 3; i++) {
+			chunks[1] = ((array.length / 4) - 1) * i;
+		}
+
+		chunks[4] = array.length - 1;
+
+		for (int i = 0; i < 4; i++) {
+			Thread thr = new Thread(new ArrayFiller(latency, minValue, maxValue, chunks[i], chunks[i + 1]));
+			threads.add(thr);
+			thr.start();
+		}
+
+		for (Thread i : threads) {
+			try {
+				i.join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	public static void main(String[] args) {
+		setUp(10, 10, 20, 30);
+		fillStupidly();
+
+		for (int i : array) {
+			System.out.println(i);
+		}
+		System.out.println();
+
+		fillSequentially();
+		for (int i : array) {
+			System.out.println(i);
+		}
+		System.out.println();
+
+		fillParalelly();
+		for (int i : array) {
+			System.out.println(i);
+		}
 
 	}
 
