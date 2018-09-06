@@ -39,10 +39,10 @@ public class ChatServer implements Runnable {
 		try {
 			server = new ServerSocket(port);
 		} catch (IOException e1) {
-		
+
 			e1.printStackTrace();
 		}
-		
+
 		Socket socket = null;
 		Thread t = null;
 		while (true) {
@@ -52,15 +52,14 @@ public class ChatServer implements Runnable {
 			// TODO 3. if socket is initialized successfully, create new Thread
 			// passing new ChatServer(socket) as a parameter for it.
 			// Then invoke start() method for this thread
-		
+
 			try {
 				socket = server.accept();
 			} catch (Exception e) {
 				continue;
-				//e.printStackTrace();
+				// e.printStackTrace();
 			}
-			if (socket.isConnected())
-			{
+			if (socket.isConnected()) {
 				ChatServer chtServer = new ChatServer(socket);
 
 				t = new Thread(chtServer);
@@ -90,17 +89,17 @@ public class ChatServer implements Runnable {
 		// and
 		// remove current object reference from connections collection
 		// and handle exceptions for these operations, if necessary
-		boolean running = true;
+
 		String msg;
-		while (running) {
+		while (true) {
 			try {
 				if (in.hasNextLine()) {
 					msg = in.nextLine();
-
+					if (msg.equals("quit") || msg.equals("exit"))
+						break;
 					for (ChatServer ch : connections) {
-						if (msg.equals("quit") || msg.equals("exit"))
-							break;
-						ch.sendMsg("> "+msg);
+
+						ch.sendMsg("> " + msg);
 
 					}
 				}
@@ -131,7 +130,7 @@ public class ChatServer implements Runnable {
 		connections.add(this);
 		try {
 			this.in = new Scanner(this.client.getInputStream());
-			this.out = new PrintWriter(this. client.getOutputStream(), true);
+			this.out = new PrintWriter(this.client.getOutputStream(), true);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -1,19 +1,18 @@
 package jtm.activity13;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.mysql.jdbc.Statement;
+
 public class TeacherManager {
 
 	protected Connection conn;
-
 
 	public TeacherManager() {
 		// TODO #1 When new TeacherManager is created, create connection to the
@@ -26,13 +25,21 @@ public class TeacherManager {
 		// for tests need to be executed server-wise, not just database-wise.
 		// 2. Set AutoCommit to false and use conn.commit() where necessary in
 		// other methods
+
+		try {
+			conn = DriverManager.getConnection("jdbc:mysql://localhost/?autoReconnect=true&useSSL=false", "root", "abcd1234");
+			conn.setAutoCommit(false);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
 	 * Returns a Teacher instance represented by the specified ID.
 	 * 
-	 * @param id
-	 *            the ID of teacher
+	 * @param id the ID of teacher
 	 * @return a Teacher object
 	 */
 	public Teacher findTeacher(int id) {
@@ -41,17 +48,25 @@ public class TeacherManager {
 		// its fields!
 		// Hint: Because default database is not set in connection,
 		// use full notation for table "database_activity.Teacher"
-		return null;
+		try {
+			java.sql.Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery("SELECT * FROM database.activty.Teacher WHERE ID ="+id+";");
+			rs.next();
+			Teacher tch=new Teacher (id,rs.getString(2),rs.getString(3));
+			return tch;
+			
+		} catch (SQLException e) {
+			return new Teacher(0,"","");	
+		}
+		
 	}
 
 	/**
-	 * Returns a list of Teacher object that contain the specified first name
-	 * and last name. This will return an empty List of no match is found.
+	 * Returns a list of Teacher object that contain the specified first name and
+	 * last name. This will return an empty List of no match is found.
 	 * 
-	 * @param firstName
-	 *            the first name of teacher.
-	 * @param lastName
-	 *            the last name of teacher.
+	 * @param firstName the first name of teacher.
+	 * @param lastName  the last name of teacher.
 	 * @return a list of Teacher object.
 	 */
 	public List<Teacher> findTeacher(String firstName, String lastName) {
@@ -60,6 +75,9 @@ public class TeacherManager {
 		// Note that search results of partial match
 		// in form ...like '%value%'... should be returned
 		// Note, that if nothing is found return empty list!
+		
+		
+		
 		return null;
 
 	}
@@ -67,10 +85,8 @@ public class TeacherManager {
 	/**
 	 * Insert an new teacher (first name and last name) into the repository.
 	 * 
-	 * @param firstName
-	 *            the first name of teacher
-	 * @param lastName
-	 *            the last name of teacher
+	 * @param firstName the first name of teacher
+	 * @param lastName  the last name of teacher
 	 * @return true if success, else false.
 	 */
 
@@ -91,11 +107,10 @@ public class TeacherManager {
 	}
 
 	/**
-	 * Updates an existing Teacher in the repository with the values represented
-	 * by the Teacher object.
+	 * Updates an existing Teacher in the repository with the values represented by
+	 * the Teacher object.
 	 * 
-	 * @param teacher
-	 *            a Teacher object, which contain information for updating.
+	 * @param teacher a Teacher object, which contain information for updating.
 	 * @return true if row was updated.
 	 */
 	public boolean updateTeacher(Teacher teacher) {
@@ -105,11 +120,10 @@ public class TeacherManager {
 	}
 
 	/**
-	 * Delete an existing Teacher in the repository with the values represented
-	 * by the ID.
+	 * Delete an existing Teacher in the repository with the values represented by
+	 * the ID.
 	 * 
-	 * @param id
-	 *            the ID of teacher.
+	 * @param id the ID of teacher.
 	 * @return true if row was deleted.
 	 */
 	public boolean deleteTeacher(int id) {
