@@ -9,11 +9,14 @@ public class Teacher {
 	// TODO process passed values
 
 	public Teacher(int id, String firstName, String lastName) {
-		this.firstName=firstName;
-		this.id=id;
-		this.lastName=lastName;
-		
-		
+		this.firstName = firstName;
+		this.id = id;
+		this.lastName = lastName;
+
+	}
+
+	public Teacher() {
+
 	}
 
 	public int getID() {
@@ -35,6 +38,6 @@ public class Teacher {
 	// Override toString() method which returns teacher in form "Name Surname"
 	@Override
 	public String toString() {
-		return this.firstName+" "+this.lastName;
+		return this.firstName + " " + this.lastName;
 	}
 }
