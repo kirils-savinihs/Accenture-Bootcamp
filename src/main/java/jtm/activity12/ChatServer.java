@@ -93,7 +93,7 @@ public class ChatServer implements Runnable {
 		String msg;
 		while (true) {
 			try {
-				if (in.hasNextLine()) {
+				if (in.hasNext()) {
 					msg = in.nextLine();
 					if (msg.equals("quit") || msg.equals("exit"))
 						break;
@@ -110,6 +110,7 @@ public class ChatServer implements Runnable {
 		}
 		in.close();
 		out.close();
+
 
 	}
 
@@ -145,6 +146,6 @@ public class ChatServer implements Runnable {
 		// TODO print passed message into output stream (out) with writer of
 		// current
 		// object
-		out.println(msg);
+		out.printf("%s",msg);
 	}
 }
