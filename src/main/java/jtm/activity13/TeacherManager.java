@@ -56,7 +56,7 @@ public class TeacherManager {
 			return tch;
 
 		} catch (SQLException e) {
-			System.out.println("EXCEPTION");
+
 			e.printStackTrace();
 			return new Teacher();
 		}
@@ -91,7 +91,7 @@ public class TeacherManager {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("EXCEPTION");
+
 			e.printStackTrace();
 
 		}
@@ -115,7 +115,7 @@ public class TeacherManager {
 			int rs = st.executeUpdate("insert into database_activity.Teacher values (NULL,'" + firstName + "','" + lastName + "')");
 			conn.commit();
 		} catch (SQLException e) {
-			System.out.println("INSERT TEACHER EXCEPTION");
+
 			e.printStackTrace();
 			return false;
 
@@ -138,7 +138,7 @@ public class TeacherManager {
 					+ "','" + teacher.getLastName() + "')");
 			conn.commit();
 		} catch (SQLException e) {
-			System.out.println("INSERT TEACHER 2 EXCEPTION");
+
 			e.printStackTrace();
 			return false;
 
@@ -162,22 +162,21 @@ public class TeacherManager {
 			java.sql.Statement st = conn.createStatement();
 			String query = "update database_activity.Teacher set firstname='" + teacher.getFirstName() + "',lastname='"
 					+ teacher.getLastName() + "' where id=" + teacher.getID();
-			System.out.println(query);
+
 			int rs = st.executeUpdate(query);
 			System.out.println("rs=" + rs);
 			if (rs == 0) {
-				System.out.println("updateTeacher returned false");
+
 				return false;
 			}
 			conn.commit();
 
 		} catch (SQLException e) {
-			System.out.println("UPDATE TEACHER EXCEPTION");
+
 			e.printStackTrace();
 			return false;
 		}
 
-		System.out.println("updateTeacher returned true");
 		return true;
 
 	}
@@ -197,18 +196,18 @@ public class TeacherManager {
 			java.sql.Statement st = conn.createStatement();
 			int rs = st.executeUpdate("delete from database_activity.Teacher where id=" + id);
 			if (rs == 0) {
-				System.out.println("updateTeacher returned false");
+
 				return false;
 			}
 			conn.commit();
 
 		} catch (SQLException e) {
-			System.out.println("DELETE TEACHER EXCEPTION");
+
 			e.printStackTrace();
 			return false;
 
 		}
-		System.out.println("deleteTeacher returned true");
+
 		return true;
 	}
 

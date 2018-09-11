@@ -48,52 +48,52 @@ import jtm.extra12.JNIClassTest;
 
 		// First week
 
-		ConfigurationTest.class, // 1
-		HelloTest.class, // 2
-		ArrayTest.class, // 3
-		BlackKnightTest.class, // 3
-		RandomPersonTest.class, // 3
-		TrafficManagementTest.class, // 4
-		EncapsulationTests.class, // 5
-
-		InterfaceTests.class, // 6
-		AnimalTests.class, // 7
-		SimpleCalcTests.class, // 8
-		OrdersTests.class, // 9
-		StreamEditorTest.class, // 10
-
-		// Second week
-
-		ArrayFillerManagerTest.class, // 11
-		ChatServerTest.class, // 12
-		DatabaseTest.class, // 13
+//		ConfigurationTest.class, // 1
+//		HelloTest.class, // 2
+//		ArrayTest.class, // 3
+//		BlackKnightTest.class, // 3
+//		RandomPersonTest.class, // 3
+//		TrafficManagementTest.class, // 4
+//		EncapsulationTests.class, // 5
+//
+//		InterfaceTests.class, // 6
+//		AnimalTests.class, // 7
+//		SimpleCalcTests.class, // 8
+//		OrdersTests.class, // 9
+//		StreamEditorTest.class, // 10
+//
+//		// Second week
+//
+//		ArrayFillerManagerTest.class, // 11
+//		ChatServerTest.class, // 12
+//		DatabaseTest.class, // 13
 		DatabaseUnitTest.class, // 14
-		ColorSliderTest.class, // 15
-								// 16 — external project — Android application
-		JettyApplicationTest.class, // 17
-		SeleniumWebDriverTest.class, // 17
-		GitMergeTest.class, // 18
-
-		// extra activities
-
-		GetOneTest.class, // 1
-		ZodiacTest.class, // 1
-		ArrayListMethodsTest.class, // 2
-		LetsRideTest.class, // 2
-		PracticalNumbersTest.class, // 3
-		StringTokenizerExerciseTest.class, // 4
-		StudentTest.class, // 4
-		XMLCarsTest.class, // 5
-		GenericsTest.class, // 6
-		HolidayTest.class, // 6
-		RegExTest.class, // 6
-		ChatClientTest.class, // 7
-		InvoiceManagerTest.class, // 8
-		CrocodileTest.class, // 9
-		GameTest.class, // 9
-		LogTest.class, // 10
-		PersonMatcherTests.class, // 11
-		JNIClassTest.class // 12
+//		ColorSliderTest.class, // 15
+//								// 16 — external project — Android application
+//		JettyApplicationTest.class, // 17
+//		SeleniumWebDriverTest.class, // 17
+//		GitMergeTest.class, // 18
+//
+//		// extra activities
+//
+//		GetOneTest.class, // 1
+//		ZodiacTest.class, // 1
+//		ArrayListMethodsTest.class, // 2
+//		LetsRideTest.class, // 2
+//		PracticalNumbersTest.class, // 3
+//		StringTokenizerExerciseTest.class, // 4
+//		StudentTest.class, // 4
+//		XMLCarsTest.class, // 5
+//		GenericsTest.class, // 6
+//		HolidayTest.class, // 6
+//		RegExTest.class, // 6
+//		ChatClientTest.class, // 7
+//		InvoiceManagerTest.class, // 8
+//		CrocodileTest.class, // 9
+//		GameTest.class, // 9
+//		LogTest.class, // 10
+//		PersonMatcherTests.class, // 11
+//		JNIClassTest.class // 12
 
 })
 public class AllTests {
