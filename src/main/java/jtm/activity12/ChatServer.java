@@ -146,6 +146,8 @@ public class ChatServer implements Runnable {
 		// TODO print passed message into output stream (out) with writer of
 		// current
 		// object
-		out.printf("%s",msg);
+		
+		//out.printf("%s",msg);
+		out.println(msg);
 	}
 }

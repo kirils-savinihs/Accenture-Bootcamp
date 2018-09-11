@@ -15,6 +15,7 @@ import jtm.activity13.Teacher;
 public class StudentManager {
 
 	protected Connection conn;
+
 	public StudentManager() {
 		// TODO #1 When new StudentManager is created, create connection to the
 		// database server:
