@@ -3,9 +3,11 @@
  */
 package jtm.activity14;
 
-
+import static jtm.TestUtils.executeCmd;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.Assert.*;
@@ -39,8 +41,10 @@ public class DatabaseUnitTest1 {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-
-		manager = new StudentManager();
+//		
+//		resetDatabase();
+//		manager = new StudentManager();
+		
 	}
 
 	/**
@@ -49,8 +53,8 @@ public class DatabaseUnitTest1 {
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 	
-		//manager.conn.commit();
-		//manager.conn.close();
+//		manager.conn.commit();
+//		manager.conn.close();
 
 	}
 
@@ -59,10 +63,14 @@ public class DatabaseUnitTest1 {
 	 */
 	@Before
 	public void setUp() throws Exception {
-
-//		String workspace = System.getProperty("user.dir");
-//		executeCmd("mysql -h 127.0.0.1 --protocol=tcp -s -uroot -pabcd1234 < " + workspace
-//				+ "/src/main/java/jtm/activity13/database.sql 2>/dev/null");
+		resetDatabase();
+		manager = new StudentManager();
+	}
+	
+	public static void resetDatabase() {
+		String workspace = System.getProperty("user.dir");
+		executeCmd("mysql -h 127.0.0.1 --protocol=tcp -s -uroot -pabcd1234 < " + workspace
+				+ "/src/main/java/jtm/activity13/database.sql 2>/dev/null");
 	}
 
 	/**
@@ -70,9 +78,12 @@ public class DatabaseUnitTest1 {
 	 */
 	@After
 	public void tearDown() throws Exception {
-
+		if (manager.conn!=null)
+		{
+		manager.conn.commit();
+		manager.conn.close();
+		}
 	}
-	
 
 	/**
 	 * Test method for {@link jtm.activity14.StudentManager#StudentManager()}.
@@ -80,7 +91,6 @@ public class DatabaseUnitTest1 {
 	@Test
 	public final void testStudentManager() {
 		assertNotEquals("Connection is not initialized", null, manager.conn);
-		
 	}
 
 	/**
@@ -103,23 +113,32 @@ public class DatabaseUnitTest1 {
 		List <Student> result = manager.findStudent("Anna","Tress");
 		assertEquals("array size not correct",result.size(),1);
 		assertEquals ("ID comparisson error",result.get(0).getID(),1);
-		
 	}
 
 	/**
 	 * Test method for {@link jtm.activity14.StudentManager#insertStudent(java.lang.String, java.lang.String)}.
 	 */
 	@Test
-	public final void testInsertStudentStringString() {
-		fail("Not yet implemented"); // TODO
+	public final void testInsertStudentNameSurname() {
+		//resetDatabase();
+		manager.insertStudent("Kirils","Savinihs");
+		assertEquals("Student by Name Surname Insertion error",manager.findStudent("Kirils","Savinihs").get(0).getFirstName(),"Kirils");
+		assertEquals("Student by Name Surname Insertion error",manager.findStudent("Kirils","Savinihs").get(0).getLastName(),"Savinihs");
+
 	}
 
 	/**
 	 * Test method for {@link jtm.activity14.StudentManager#insertStudent(jtm.activity14.Student)}.
 	 */
 	@Test
-	public final void testInsertStudentStudent() {
-		fail("Not yet implemented"); // TODO
+	public final void testInsertStudentObject() {
+		Student insStudent =new Student(4,"Georgijs","Silovs");
+		manager.insertStudent(insStudent);
+		Student result = manager.findStudent(4);
+		assertEquals ("Student Object Name Insertion Error",result.getFirstName(),insStudent.getFirstName());
+		assertEquals ("Student Object ID Insertion Error",result.getID(),insStudent.getID());
+		assertEquals ("Student Object Surname Insertion Error",result.getLastName(),insStudent.getLastName());
+
 	}
 
 	/**
@@ -127,7 +146,10 @@ public class DatabaseUnitTest1 {
 	 */
 	@Test
 	public final void testUpdateStudent() {
-		fail("Not yet implemented"); // TODO
+		Student before = manager.findStudent(1);
+		manager.updateStudent(new Student(1,"Updated","Student"));
+		
+		assertNotEquals("Update Student Error",manager.findStudent(1).getFirstName(),before.getFirstName());
 	}
 
 	/**
@@ -135,7 +157,16 @@ public class DatabaseUnitTest1 {
 	 */
 	@Test
 	public final void testDeleteStudent() {
-		fail("Not yet implemented"); // TODO
+		Student toBeDeletedSt = new Student(4,"Tobe","Deleted");
+		manager.insertStudent(toBeDeletedSt);
+		manager.deleteStudent(4);
+		try {
+		assertNotEquals("Deletion Error",manager.findStudent(4).getFirstName(),toBeDeletedSt.getFirstName());
+		}
+		catch (Exception e)
+		{
+			assertTrue(true);
+		}
 	}
 
 	/**
@@ -143,7 +174,10 @@ public class DatabaseUnitTest1 {
 	 */
 	@Test
 	public final void testCloseConnecion() {
-		fail("Not yet implemented"); // TODO
+		if (manager != null)
+			manager.closeConnecion();
+		assertNull("Connection is not set to null when closed.", manager.conn);
+		
 	}
 
 }
