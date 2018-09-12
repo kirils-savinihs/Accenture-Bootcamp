@@ -87,10 +87,34 @@ public class ColorSlider {
 		 * use .setName("name") method to set name property of slider objects as:
 		 * redSlider, greenSlider and blueSlider.
 		 */
+		
+		redSlider = new JSlider();
+		redSlider.setMaximum(255);
+		redSlider.setMinimum(0);
+		redSlider.setName("redSlider");
+		
+		greenSlider = new JSlider();
+		greenSlider.setMaximum(255);
+		greenSlider.setMinimum(0);
+		greenSlider.setName("greenSlider");
+		
+		blueSlider = new JSlider();
+		blueSlider.setMaximum(255);
+		blueSlider.setMinimum(0);
+		blueSlider.setName("blueSlider");
+		
+		frame.getContentPane().add(redSlider, "cell 2 0");
+		frame.getContentPane().add(greenSlider, "cell 2 1");
+		frame.getContentPane().add(blueSlider, "cell 2 2");
+		
+		
 
 
 		// TODO set initial values of sliders to 0 and background to black
-
+		blueSlider.setValue(0);
+		greenSlider.setValue(0);
+		blueSlider.setValue(0);
+		txtTest.setBackground(Color.black);
 		// Make JFrame visible
 		frame.setVisible(true);
 
@@ -99,11 +123,32 @@ public class ColorSlider {
 	private void add_listeners() {
 		// TODO add event listeners to all sliders and call change_color method
 		// from them
+		redSlider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				ColorSlider.this.setBackgroundColor();
+			}
+		});
+		greenSlider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				ColorSlider.this.setBackgroundColor();
+			}
+		});
+		blueSlider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				ColorSlider.this.setBackgroundColor();
+			}
+		});
+		
+		
 	}
 
 	private void setBackgroundColor() {
 		// TODO change background id of txtTest object accordingly to
 		// id slider values. Use Color object for that
+		
+		
+		Color col = new Color(redSlider.getValue(),greenSlider.getValue(),blueSlider.getValue());
+		txtTest.setBackground(col);
 	}
 
 }
