@@ -93,7 +93,7 @@ public class JettyApplicationTest {
 			Assert.fail(e.getMessage());
 		}
 		logger.info("OK");
-	}
+	} 
 
 	@Test()
 	public void test2WebHome() {
