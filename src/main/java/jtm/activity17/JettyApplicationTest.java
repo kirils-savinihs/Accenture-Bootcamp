@@ -177,7 +177,7 @@ public class JettyApplicationTest {
 						"<a href='/'>Back</a>\n",
 				entity.getBody());
 
-		manager.closeConnecion();
+//		manager.closeConnecion();
 
 		logger.info("OK");
 	}
