@@ -8,103 +8,78 @@ public class PracticalNumbers {
 	// TODO Read article https://en.wikipedia.org/wiki/Practical_number
 	// Implement method, which returns practical numbers in given range
 	// including
-	
-	public int getFactorial(int a)
-	{
-		if (a<=1)
-			return 1; 
-		else return a*getFactorial(a-1);
-		
+
+	static void log(String str) {
+		System.out.println(str);
 	}
-	
-	public class numAndItsDivisors
-	{
-		public final int num;
-		public final ArrayList<Integer> divisors;
-		
-		numAndItsDivisors(int num)
-		{
-			this.num = num;
-			this.divisors = PracticalNumbers.getDivisors(num);
+
+	public static boolean isPractical(int num) {
+		ArrayList<Integer> factorList = new ArrayList<Integer>();
+
+		for (int i = 1; i < num; i++) {
+			if (num % i == 0) {
+				factorList.add(i);
+			}
 		}
+
+		Integer[] factors = factorList.toArray(new Integer[factorList.size()]); //All factors of num
+
+		//for each number less than num
+		for (int i = num - 1; i > 0; i--) {
+			int temp = i;
+
+			//for each factor that is less than the number itself, starting with the highest
+			for (int j = factors.length - 1; j >= 0; j--) {
+
+				//if the number is > 0
+				if (temp > 0) {
+					//subtract the factor
+					temp -= factors[j];
+				}
+				//if the number is <0
+				else if (temp < 0) {
+					//add the factor
+					temp += factors[j];
+				}
+				//if the number is 0
+				else {	
+					//stop
+					break;
+				}
+
+			}
+			if (temp != 0) {
+				//not practical
+				return false;
+			}
+
+		}
+		//practical
+		return true;
 	}
-	
-	
+
 	public String getPracticalNumbers(int from, int to) {
-//		check if all numbers that are less than the number are sums of the number's divisors
-//		if all of them are then the number is a practical numbers
-		
-		
-		ArrayList <numAndItsDivisors> nums = new ArrayList <numAndItsDivisors>();
-		ArrayList <Integer> practicalNums = new ArrayList <Integer>();
-		
-		for (int i =from;i<=to;i++)
-		{
-			nums.add(new numAndItsDivisors(i));
-		}
-		
-		for (numAndItsDivisors x: nums) // for each number [from;to]
-		{
-			int checkedInts = 0;
-			for (int i = 1;i< x.num;i++) // for each number less than the potential practical number
-			{
-				if (x.divisors.contains(i))
-				{
-					
-				}
-				else 
-				{
-					for (int r=1;r<=x.divisors.size();r++)
-					{
-						for (int z=1;z<=( 1/*formula for combinations where order doesnt matter*/);z++)
-						{
-							
-						}
-					}
-					
-				}
-				
-					
-					
-				
-				
-				
+
+		StringBuilder practical = new StringBuilder();
+		boolean first = true;
+
+		practical.append("[");
+		for (int i = from; i <= to; i++) {
+			if (isPractical(i)) {
+				if (first) {
+					practical.append(Integer.toString(i));
+					first = false;
+				} else
+					practical.append(", " + Integer.toString(i));
 			}
-			
-			if (checkedInts == x.num-1)
-			{
-				practicalNums.add(x.num);
-			}
-			
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		return "";
+		practical.append("]");
+
+		return practical.toString();
 	}
-	
-	public static ArrayList<Integer> getDivisors(int a)
-	{
-		ArrayList<Integer> divisors = new ArrayList<Integer>();
-		
-		for (int i=1;i<=a;i++)
-		{
-			if (a%i == 0 && a!=i)
-			divisors.add(i);
-		}
-		
-		return divisors;
+
+	public static void main(String[] args) {
+		isPractical(4);
 	}
-	
-	
-	
 
 }
