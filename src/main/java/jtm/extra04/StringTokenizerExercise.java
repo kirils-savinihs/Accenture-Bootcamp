@@ -1,9 +1,6 @@
 package jtm.extra04;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -103,7 +100,36 @@ public class StringTokenizerExercise {
 	public List<Student> createFromFile(String filepath, String delimiter) {
 		File students = new File(filepath);
 		List<Student> list = new ArrayList<Student>();
-		BufferedReader in = null;
+		BufferedReader in =null;
+
+
+		try {
+			in = new BufferedReader(new FileReader(students));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		String line;
+
+		try {
+			while ((line = in.readLine()) != null)
+			{
+				Student s = new Student();
+				StringTokenizer tokenizer = new StringTokenizer(line,delimiter);
+				s.setID(Integer.parseInt(tokenizer.nextToken()));
+				s.setFirstName(tokenizer.nextToken());
+				s.setLastName(tokenizer.nextToken());
+				s.setPhoneNumber(Integer.parseInt(tokenizer.nextToken()));
+				list.add(s);
+			}
+
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+
+
 		// TODO # 3 Implement method which reads data from file and creates
 		// Student objects with that data. Each line from file contains data for
 		// 1 Student object.
@@ -111,8 +137,12 @@ public class StringTokenizerExercise {
 		// and
 		// files are correct and in proper form.
 		// Advice: Explore StringTokenizer or String split options.
-		return list;
+		{
+			return list;
+		}
 	}
+
+
 
 	public static void main(String[] args) {
 		String testString = "abcdVRMabcdVRMjfhsVRM";
