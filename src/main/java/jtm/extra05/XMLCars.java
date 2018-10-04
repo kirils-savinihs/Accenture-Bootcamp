@@ -1,5 +1,10 @@
 
 package jtm.extra05;
+import javax.xml.*;
+import org.w3c.dom.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 // TODO #1
 // Import necessary classes from javax.xml.* and, if necessary org.w3c.dom.*
@@ -9,6 +14,9 @@ public class XMLCars {
 	/*- TODO #2
 	 * Declare static variables to remember previously generated structure of XML
 	 */
+
+	static public List Cars = new ArrayList();
+	static public boolean first = true;
 
 
 	public void addCar(int id, String model, String color, int year, float price, String notes) throws Exception {
