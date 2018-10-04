@@ -12,6 +12,11 @@ public class Student {
 	public Student(int ID, String firstname, String lastName, int phoneNumber) {
 		// TODO #1 Create new student, assign him ID, first name, last name and
 		// phone number from passed values
+		this.ID = ID;
+		this.firstName = firstname;
+		this.lastName = lastName;
+		this.phoneNumber=phoneNumber;
+
 	}
 
 	public String getFirstName() {
